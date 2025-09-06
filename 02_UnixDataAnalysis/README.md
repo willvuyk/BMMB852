@@ -122,7 +122,7 @@ Use the option below to just get the top 10 most annotated features
 cat $GFF | cut -f 3 | grep -v "^#" | sort-uniq-count-rank | head > chr_features_top10.txt
 ```
 
-The top 10 features for the Sus scrofa chr file are exon, CDS, biological_region, five_prime_UTR, three_prime_UTR, mRNA, gene, ncRNA_gene, lnc_RNA, snRNA
+The top 10 features for the Sus scrofa chr file are exon, CDS, biological_region, five_prime_UTR, three_prime_UTR, mRNA, gene, ncRNA_gene, lnc_RNA, snRNA. I have never heard of lnc_RNA before, which stands for long non-coding RNA. These are RNAs longer than 200 nucleotides and do not code for proteins. 
 
 Sum the number of features listed in the features.txt file to double check the total number of features
 
