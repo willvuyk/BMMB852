@@ -1,0 +1,10 @@
+557717	exon
+501088	CDS
+150757	biological_region
+58258	five_prime_UTR
+45243	three_prime_UTR
+44506	mRNA
+20963	gene
+12902	ncRNA_gene
+11582	lnc_RNA
+1077	snRNA
