@@ -302,16 +302,18 @@ cat $mitoGFF | grep "gene" > ASM23792v2_mito_genes.gff
 ```
 
 ![Image of mitochondrial fasta (top track), full gff (middle track), and only gene annotations (bottom track)](./img1.png)
+*Image of mitochondrial fasta (top track), full gff (middle track), and only gene annotations (bottom track)*
 
 The simplified (gene) gff is easier to interpret.
 
 #### Zoom in to see the sequences, expand the view to show the translation table in IGV. Note how the translation table needs to be displayed in the correct orientation for it to make sense.
 
 ![Image of mitochondrial fasta (top track), full gff (middle track), and only gene annotations (bottom track) zoomed in so the translation table is visible](./img2.png)
+*Image of mitochondrial fasta (top track), full gff (middle track), and only gene annotations (bottom track) zoomed in so the translation table is visible.*
 
 Genes can be on either the forward or reverse strand, so they could potentially be read in 6 different reading frames (3 forward, 3 reverse) so the correct orientation of the translation table is important.
 
 #### Visually verify that the first coding sequence of a gene starts with a start codon and that the last coding sequence of a gene ends with a stop codon.
 
 ![The ATP6 gene begins with a start codon and ends with a stop codon](./img3.png)
-
+*The ATP6 gene begins with a start codon and ends with a stop codon*
