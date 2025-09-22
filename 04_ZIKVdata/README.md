@@ -181,6 +181,7 @@ Here are the ranked feature results:
 
 #### What is the longest gene? What is its name and function? 
 *You may need to search other resources to answer this question. Look at other gene names. Pick another gene and describe its name and function.*
+
 The longest known human gene is the dystrophin gene. This appears to be from the article:
 
 ```
@@ -191,7 +192,7 @@ Another human gene is the Huntingtin gene, which is located on chromosome 4 and 
 #### Look at the genomic features, are these closely packed, is there a lot of intragenomic space? Using IGV estimate how much of the genome is covered by coding sequences.
 Since IGV is not working for me, I looked this up online. The textbook chapter linked below says that ~1% of the human genome is protein coding
 
-(RNA, the Epicenter of Genetic Information: A new understanding of molecular biology. Chapter 11: The Human Genome)[https://www.ncbi.nlm.nih.gov/books/NBK595930/]
+[RNA, the Epicenter of Genetic Information: A new understanding of molecular biology. Chapter 11: The Human Genome](https://www.ncbi.nlm.nih.gov/books/NBK595930/)
 
 #### Find alternative genome builds that could be used to perhaps answer a different question (find their accession numbers). Considering the focus of the paper, think about what other questions you could answer if you used a different genome build.
 
