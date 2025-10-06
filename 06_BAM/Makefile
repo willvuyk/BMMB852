@@ -66,6 +66,8 @@ refs:
 	@echo "# Print information in terminal"
 	cat ${NAME}_stats.txt
 
+	@echo "# Download of ${REF} reference genome complete"
+
 # Download a subset of reads from SRA
 # Remove the -X flag to get all data.
 fastq:
@@ -77,6 +79,8 @@ fastq:
 
 	@echo "# Show some information about the reads"
 	seqkit stats ${R1} ${R2}
+
+	@echo "# Download of ${SRR} reads complete"
 
 # Index the reference genome
 index:
