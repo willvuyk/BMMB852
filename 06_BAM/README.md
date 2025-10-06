@@ -86,10 +86,10 @@ This is wierd because it is RNAseq, so only the transcriptome. But what is the t
 Coverage is very sparse. Only the mitochondria is densely covered.
 
 
-!(Dense mito coverage](852_003_github/BMMB852/06_BAM/mito.png)
+![Dense mito coverage](852_003_github/BMMB852/06_BAM/mito.png)
 This image shows deep coverage on human mitochondria.
 
-!(Dense mito coverage](852_003_github/BMMB852/06_BAM/chrom.png)
+![Dense mito coverage](852_003_github/BMMB852/06_BAM/chrom.png)
 This image shows sparse chromosomal coverage - tough to even find mapped reads on some chromosomes.
 
 
