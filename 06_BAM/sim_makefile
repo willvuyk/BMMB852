@@ -1,0 +1,115 @@
+#
+# Makefile for aligning short reads with BWA
+# Edited from [Biostar Handbook](https://www.biostarhandbook.com/fast/methods/makefiles/)
+#
+
+# Real Read Alignment Variables
+# NCBI Genome accession number  
+ACC=GCF_009914755.1
+
+# The user-friendly name for the genome
+NAME=HsapiensT2T
+
+# The prefix for the reads for art simulation
+PREFIX=reads/art_reads_
+
+# How many reads to simulate
+N=10000000
+
+# Read length for art simulation
+L=76
+
+# Reference genome
+REF=refs/${NAME}.fa
+
+# The read names are created automatically by art
+S1=${PREFIX}1.fq
+S2=${PREFIX}2.fq
+
+# Simulation mode - valid modes are: HS10, HS25, NS50 (see art_illumina -help)
+MODEL=MSv1
+
+# BAM file
+BAM=bam/${PREFIX}.bam
+
+# Setting useful defaults.
+# Set the shell the commands run in.
+SHELL = /bin/bash
+# Execute all commands in a single shell.
+.ONESHELL:
+# Run the shell with strict error checking.
+.SHELLFLAGS = -eu -o pipefail -c
+# Delete target files if the command fails.
+.DELETE_ON_ERROR:
+# Warn about undefined variables.
+MAKEFLAGS += --warn-undefined-variables
+# Disable built-in rules.
+MAKEFLAGS += --no-builtin-rules
+
+# Prints the usage message
+usage:
+	@echo "#"
+	@echo "# Makefile for aligning simulated short reads from ART to a genome from NCBI genomes with BWA"
+	@echo "# Input variables: Simulation prefix=${PREFIX}, Interpretable reference name=${NAME}, number of reads=${N}, length of reads=${L}, model=${MODEL}"
+	@echo "# Usage: make [all|refs|simulate|index|align|clean]"    
+	@echo "#"
+
+# Obtain the reference genome
+refs:
+	@echo "# Create the reference directory"
+	@echo "# I am extracting the directory name from the path"
+	mkdir -p $(dir ${REF})
+
+	@echo "# Download the reference genome"
+	bio fetch ${ACC} --format fasta > ${REF}
+
+	@echo "# Create file with some information about the genome"
+	seqkit stats ${REF} > ${NAME}_fasta_stats.txt
+	
+	@echo "# Print information in terminal"
+	cat ${NAME}_stats.txt
+
+# Index the reference genome
+index:
+	bwa index ${REF}
+
+# Simulate reads with art
+simulate:
+	@echo "# Simulate reads with art"
+
+	@echo "# Make the reads directory"
+	mkdir -p $(dir ${PREFIX})
+
+	@echo "# Simulate reads with art"
+	art_illumina -ss ${MODEL} -i ${REF} \
+			-p -l ${L} -f ${N} \
+			-m 200 -s 10 -o ${PREFIX}
+
+	 @echo "# Run read statistics"
+	seqkit stats ${S1} ${S2}
+
+# Align the reads and convert to BAM. Use 4 threads
+# Works for paired-end reads. Modify for single-end reads.
+align:
+	@echo "# Make the BAM directory"
+	mkdir -p $(dir ${BAM})
+
+	@echo "# Align the reads"
+	bwa mem -t 4 ${REF} ${S1} ${S2} | samtools sort  > ${BAM}
+
+	@echo "# Index the BAM file"
+	samtools index ${BAM}
+
+# Generate alignment statistics
+stats:
+	samtools flagstat ${BAM} > ${PREFIX}_bam_flagstat.txt
+
+# Clean up generated files
+clean:
+	rm -rf ${REF} ${S1} ${S2} ${BAM} ${BAM}.bai
+
+# Create necessary directories
+all: refs simulate index align stats
+
+# Create necessary directories
+.PHONY: all refs fastq index align clean stats
