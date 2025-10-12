@@ -46,9 +46,9 @@ make fastq align stats wiggle ACC=GCF_009914755.1 NAME=HsapiensT2T SRR=SRR355140
 *Briefly describe the differences between the alignment in both files.*
 The `SRR3191544` has higher and more even coverage than `SRR35514003`. `SRR35514003` has a very tall read pileup near CP068266.2.
 
-!(full genome view)[WG.png]
+![full genome view](WG.png)
 
-!(zoomed view)[zoomed.png]
+![zoomed view](zoomed.png)
 
 *Briefly compare the statistics for the two BAM files.*
 The paired-end file `SRR3191544` has twice the number of reads than the single-end file `SRR35514003`. This sounds obvious, but I wasn't sure until now how fastq-dump accounted for this when specifying read count. Good to know. Otherwise the two BAMs seem similar. 96.61% of `SRR3191544` successfully mapped, while 96.29% of `SRR35514003` successfully mapped. Both had zero QC failed reads.
