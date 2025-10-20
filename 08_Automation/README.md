@@ -10,10 +10,18 @@ I am using Bioproject `PRJNA313294` from the paper [Tang et al., 2016](https://p
 
 ### Makefile usage
 ```
-@echo "# Makefile for aligning reads from SRA to a genome from NCBI with BWA, and making wiggle file for visualization"
-	# Input variables: Genome accession=${ACC}, Interpretable reference name=${NAME}, annotation file types=${ANNOT} (options are: cds, gbff, genome, gff3, gtf, none, protein, rna, seq-report), SRA accession=${SRR}, number of reads=${N}"
+    # Makefile for aligning reads from SRA to a genome from NCBI with BWA, and making wiggle file for visualization"
+	# Input variables: 
+    ## Genome accession=${ACC}
+    ## Interpretable reference name=${NAME}
+    ## Annotation file types=${ANNOT} 
+    ### (options are: cds, gbff, genome, gff3, gtf, none, protein, rna, seq-report), 
+    ## SRA accession=${SRR} 
+    ## Number of reads=${N}
 	# Usage: make [all|ref|reads|fasta|annotations|index|fastq|fastqc|align|stats|wiggle|clean]"
-	# make all will run all steps sequentially, make ref will download and index the reference genome and annotations, make reads will download, quality check, align the reads, generate stats, and make wiggle files"    
+	## make all will run all steps sequentially.
+    ## make ref will download and index the reference genome and annotations.
+    ## make reads will download, quality check, align the reads, generate stats, and make wiggle files.
 ```
 
 ### Get metadata Bioproject metadata with `bio` - did not work 500 server error

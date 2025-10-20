@@ -57,9 +57,17 @@ MAKEFLAGS += --no-builtin-rules
 usage:
 	@echo "#"
 	@echo "# Makefile for aligning reads from SRA to a genome from NCBI with BWA, and making wiggle file for visualization"
-	@echo "# Input variables: Genome accession=${ACC}, Interpretable reference name=${NAME}, annotation file types=${ANNOT} (options are: cds, gbff, genome, gff3, gtf, none, protein, rna, seq-report), SRA accession=${SRR}, number of reads=${N}"
+	@echo "# Input variables:""
+	@echo "## Genome accession=${ACC}"
+	@echo "## Interpretable reference name=${NAME}"
+	@echo "## Annotation file types=${ANNOT}"
+	@echo "### (options are: cds, gbff, genome, gff3, gtf, none, protein, rna, seq-report)"
+	@echo "## SRA accession=${SRR}"
+	@echo "## Number of reads=${N}"
 	@echo "# Usage: make [all|ref|reads|fasta|annotations|index|fastq|fastqc|align|stats|wiggle|clean]"
-	@echo "# make all will run all steps sequentially, make ref will download and index the reference genome and annotations, make reads will download, quality check, align the reads, generate stats, and make wiggle files"    
+	@echo "## make all will run all steps sequentially."
+	@echo "## make ref will download and index the reference genome and annotations."
+	@echo "## make reads will download, quality check, align the reads, generate stats, and make wiggle files."
 	@echo "#"
 
 # Obtain the reference genome
