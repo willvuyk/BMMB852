@@ -5,14 +5,15 @@
 
 # Real Read Alignment Variables
 # NCBI Genome accession number  
-ACC=GCF_009914755.1
+ACC=NC_060948.1
 
 # The user-friendly name for the genome
-NAME=HsapiensT2T
+NAME=HsapiensT2T_chr22
 
 # Define the annotation file types to download separated by comma
 # Options include: cds, gbff, genome, gff3, gtf, none, protein, rna, seq-report
 ANNOT=gff3,gtf
+ANNOT_ACC=${ACC}
 
 # SRR number
 SRR=SRR3191544
@@ -21,7 +22,7 @@ SRR=SRR3191544
 N=1000
 
 # Reference genome
-REF=refs/${NAME}.zip
+REF=refs/${NAME}.fa.gz
 
 # Read 1
 R1=reads/${SRR}_1.fastq
@@ -95,7 +96,7 @@ index:
 # Obtain the reference annotations (if not already done)
 annotations:
 	@echo "# Download the reference annotations"
-	datasets download genome accession ${ACC} --include ${ANNOT} 
+	datasets download genome accession ${ANNOT_ACC} --include ${ANNOT} 
 
 	@echo "# Unzip the downloaded file, skipping existing files"
 	unzip -n ncbi_dataset.zip
