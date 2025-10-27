@@ -1,0 +1,189 @@
+#
+# Makefile for aligning short reads with BWA
+# Edited from [Biostar Handbook](https://www.biostarhandbook.com/fast/methods/makefiles/)
+#
+
+# Real Read Alignment Variables
+# NCBI Genome accession number  
+ACC=GCF_009914755.1
+
+# The user-friendly name for the genome
+NAME=HsapiensT2T
+
+# Define the annotation file types to download separated by comma
+# Options include: cds, gbff, genome, gff3, gtf, none, protein, rna, seq-report
+ANNOT=gff3,gtf
+
+# SRR number
+SRR=SRR3191544
+
+# How many reads to download
+N=1000
+
+# Reference genome
+REF=refs/${NAME}.zip
+
+# Read 1
+R1=reads/${SRR}_1.fastq
+
+# Read 2
+R2=reads/${SRR}_2.fastq
+
+# BAM file
+BAM=bam/${SRR}.bam
+
+# The temporary bedgraph file
+BG=wiggle/${SRR}.bedgraph
+
+# The BW wiggle file
+BW=wiggle/${SRR}.bw
+
+
+# Setting useful defaults.
+# Set the shell the commands run in.
+SHELL = /bin/bash
+# Execute all commands in a single shell.
+.ONESHELL:
+# Run the shell with strict error checking.
+.SHELLFLAGS = -eu -o pipefail -c
+# Delete target files if the command fails.
+.DELETE_ON_ERROR:
+# Warn about undefined variables.
+MAKEFLAGS += --warn-undefined-variables
+# Disable built-in rules.
+MAKEFLAGS += --no-builtin-rules
+
+# Prints the usage message
+usage:
+	@echo "#"
+	@echo "# Makefile for aligning reads from SRA to a genome from NCBI with BWA, and making wiggle file for visualization"
+	@echo "# Input variables:""
+	@echo "## Genome accession=${ACC}"
+	@echo "## Interpretable reference name=${NAME}"
+	@echo "## Annotation file types=${ANNOT}"
+	@echo "### (options are: cds, gbff, genome, gff3, gtf, none, protein, rna, seq-report)"
+	@echo "## SRA accession=${SRR}"
+	@echo "## Number of reads=${N}"
+	@echo "# Usage: make [all|ref|reads|fasta|annotations|index|fastq|fastqc|align|stats|wiggle|clean]"
+	@echo "## make all will run all steps sequentially."
+	@echo "## make ref will download and index the reference genome and annotations."
+	@echo "## make reads will download, quality check, align the reads, generate stats, and make wiggle files."
+	@echo "#"
+
+# Obtain the reference genome
+fasta:
+	@echo "# Create the reference directory"
+	@mkdir -p $(dir ${REF})
+
+	@echo "# Download the reference genome"
+	@bio fetch ${ACC} --format fasta > ${REF}
+
+	@echo "# Create stats directory if it does not already exist"
+	@mkdir -p stats
+
+	@echo "# Generate fasta stats"
+	@seqkit stats ${REF} > stats/${NAME}_fasta_stats.txt
+
+	@echo "# Print stats in terminal"
+	@cat stats/${NAME}_fasta_stats.txt
+
+# Index the reference genome
+index:
+	bwa index ${REF}
+	samtools faidx ${REF}
+
+# Obtain the reference annotations (if not already done)
+annotations:
+	@echo "# Download the reference annotations"
+	datasets download genome accession ${ACC} --include ${ANNOT} 
+
+	@echo "# Unzip the downloaded file, skipping existing files"
+	unzip -n ncbi_dataset.zip
+
+	@echo "# Move the downloaded files to the annotations directory"
+	mv ncbi_dataset ${NAME}_annotations
+
+# Download a subset of reads from SRA
+# Remove the -X flag to get all data.
+fastq:
+	@echo "# Create the reads directory"
+	mkdir -p $(dir ${R1})
+
+	@echo "# Download the reads"
+	fastq-dump -X ${N} --outdir reads --split-files ${SRR}
+
+	@echo "# Create stats directory if it does not already exist"
+	mkdir -p stats
+
+	@if [ -f "${R2}" ]; then \
+		echo "# Stats on paired reads"; \
+		seqkit stats ${R1} ${R2} > stats/${SRR}_fastq_stats.txt; \
+	else \
+		echo "# Stats on single reads"; \
+		seqkit stats ${R1} > stats/${SRR}_fastq_stats.txt; \
+	fi
+	
+	@echo "# Print stats in terminal"
+	cat stats/${SRR}_fastq_stats.txt
+
+# Run fastqc
+fastqc:
+	@echo "# Create the fastqc directory"
+	mkdir -p fastqc
+
+	@echo "# Run FastQC on the reads"
+	fastqc -o fastqc ${R1} ${R2}
+
+	@echo "# FastQC reports are in the fastqc directory"
+
+# Align the reads and convert to BAM. Use 4 threads
+align:
+	@echo "# Make the BAM directory"
+	mkdir -p $(dir ${BAM})
+
+	@if [ -f "${R2}" ]; then \
+		echo "# aligning paired reads"; \
+		bwa mem -t 4 ${REF} ${R1} ${R2} | samtools sort  > ${BAM}; \
+	else \
+		echo "# aligning single reads"; \
+		bwa mem -t 4 ${REF} ${R1} | samtools sort  > ${BAM}; \
+	fi
+
+	@echo "# Index the BAM file"
+	samtools index ${BAM}
+
+# Generate alignment statistics
+stats:
+	@echo "# Create stats directory if it does not already exist"
+	mkdir -p stats	
+	
+	@echo "# Generate alignment statistics"
+	samtools flagstat ${BAM} > stats/${SRR}_bam_flagstat.txt
+	
+	@echo "# Print stats in terminal"
+	cat stats/${SRR}_bam_flagstat.txt
+
+# Create wiggle files (bigwig) from the BAM file in BAM directory
+wiggle:
+	@echo "# Create wiggle directory if it does not already exist"
+	mkdir -p wiggle	
+	
+	@echo "# Generate the temporary bedgraph file."
+	LC_ALL=C; bedtools genomecov -ibam  ${BAM} -split -bg | sort -k1,1 -k2,2n > ${BG}
+
+	@echo "# Convert the bedgraph file to bigwig."
+	bedGraphToBigWig ${BG} ${REF}.fai ${BW}
+
+# Clean up generated files
+clean:
+	rm -rf ${REF} ${R1} ${R2} ${BAM} ${BAM}.bai
+
+# Create necessary directories
+all: fasta index annotations fastq fastqc align stats wiggle
+
+ref: fasta index annotations
+
+reads: fastq fastqc align stats wiggle
+
+# Create necessary directories
+.PHONY: all ref fasta annotations fastq fastqc index align clean stats wiggle usage 
