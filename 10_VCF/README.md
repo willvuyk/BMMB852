@@ -50,3 +50,9 @@ bcftools merge vcf/*.vcf.gz -Oz -o vcf/merged.vcf.gz
 
 ## Images of alignments and vcfs in IGV
 
+### Single file VCF in IGV
+(image)[singlevcf.png]
+
+### Merged VCF in IGV
+(image)[mergedvcf.png]
+
