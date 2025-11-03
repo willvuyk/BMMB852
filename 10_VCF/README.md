@@ -7,7 +7,6 @@ This week the assignment is to expand the makefile from last week (week 8 and 9)
 ## Make BAMs
 To make the BAM files I use moving forward, please do the following (which is explained in more detail in the week 8 README)
 
-```
 ### Make design file with `esearch|efetch`
 ```
 esearch -db sra -query PRJNA313294 | efetch -format runinfo > design.csv
