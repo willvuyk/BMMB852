@@ -25,20 +25,34 @@ snpEff code in this Makefile has been edited from the snpeff.mk file in the bio 
 ## Workflow usage
 
 Makefile for aligning reads from SRA to a genome from NCBI with BWA, and making wiggle file for visualization
+
 Input variables:
+
 Genome accession=${ACC}"
+
 Accession for annotation file=${ANNOT_ACC}"
+
 Interpretable reference name=${NAME}
+
 Annotation file types=${ANNOT}
 (options are: cds, gbff, genome, gff3, gtf, none, protein, rna, seq-report)
+
 SRA accession=${SRR}
+
 Number of reads=${N}
+
 VCF file=${VCF}
+
 Usage: make [all|ref|reads|fasta|annotations|index|fastq|fastqc|align|stats|wiggle|vcf|readsvcf|snpeff_build|snpeff_run|clean]
+
 make ref will download and index the reference genome and annotations.
+
 make reads will download, quality check, align the reads, generate stats, and make wiggle files.
+
 make readsvcf will download, quality check, align the reads, generate stats, and make wiggle and vcf files.
+
 make snpeff_build will build the snpEff database.
+
 make snpeff_run will run snpEff to annotate the VCF file.
 
 ## Troubleshooting notes
@@ -110,7 +124,7 @@ To evaluate the variant effect calls from snpEFF, I loaded the reference fasta, 
 
 Three variants I located with OK coverage (5-10x) were as follows in the format (Reference nucleotide)(Reference nucleotide position)(Variant nucleotide)
 
-# First two variants 
+### First two variants 
 
 ![image](14610.png)
 
