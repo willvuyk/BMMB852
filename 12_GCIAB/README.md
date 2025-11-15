@@ -46,7 +46,7 @@ Some stats that stand out to me are the 1) high average quality scores of the Pa
 
 Here is an image of all the bigwig files aligned with each other
 
-[bigwig](bigwig.png)
+![bigwig](bigwig.png)
 
 Illumina NovaSeq appears to have the best coverage depth accross the region of all short read platforms. ONT STD appears to have the best coverage depth for long-read platforms. 
 
