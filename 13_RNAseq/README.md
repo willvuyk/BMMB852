@@ -26,12 +26,14 @@ bio search PRJNA887926 -H --csv > design.csv
 ```
 
 **Sequences**
-Control Rep 1 : SRR21835898
-Control Rep 2 : SRR21835897
-Control Rep 3 : SRR21835896
-Sodium Propionate Rep 1 : SRR21835901
-Sodium Propionate Rep 2 : SRR21835900
-Sodium Propionate Rep 3 : SRR21835899
+| SRR ID     | Group     | Name                     |
+|-----------|-----------|--------------------------|
+| SRR21835898 | Control   | Control Rep 1           |
+| SRR21835897 | Control   | Control Rep 2           |
+| SRR21835896 | Control   | Control Rep 3           |
+| SRR21835901 | Treatment | Sodium Propionate Rep 1 |
+| SRR21835900 | Treatment | Sodium Propionate Rep 2 |
+| SRR21835899 | Treatment | Sodium Propionate Rep 3 |
 
 The above sequences are multiple Gb each, and take a logn time to download. Therefore, I have downsampled them 100x (300 thousand reads). To download the downsampled fastq sequences in parallel, do the following:
 ```
