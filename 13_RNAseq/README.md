@@ -10,7 +10,7 @@ This week the assignment is to run an RNAseq analysis including the following st
 4) Compare the expression levels to find up- and down-regulated genes
 5) Visualize and interpret the results
 
-Of the options provided on the course website, I decided to try to replicate some of the analyses in the paper "RNA-Seq-based transcriptome analysis of methicillin-resistant Staphylococcus aureus growth inhibition by propionate". Link to paper (here)[https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2022.1063650/full].
+Of the options provided on the course website, I decided to try to replicate some of the analyses in the paper "RNA-Seq-based transcriptome analysis of methicillin-resistant Staphylococcus aureus growth inhibition by propionate". Link to paper [here](https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2022.1063650/full).
 
 This paper reports that 171 genes were differentially expressed in propionate treated bacteria, with 131 of those being up-regulated. I will see if I can replicate this result using their sequences. 
 
@@ -137,7 +137,7 @@ src/r/plot_pca.r -c edger.csv
 
 But this doesn't seem right. In IGV the controls and treatments are distinguishable. Here not so much. 
 
-![image](pca.pdf)
+![image](pca.png)
 
 IGV visualizations:
 
