@@ -137,6 +137,8 @@ src/r/plot_pca.r -c edger.csv
 
 But this doesn't seem right. In IGV the controls and treatments are distinguishable. Here not so much. 
 
+![image](pca.pdf)
+
 IGV visualizations:
 
 These sequence reads to appear to be RNAseq, and align roughly with annotated transcripts:
